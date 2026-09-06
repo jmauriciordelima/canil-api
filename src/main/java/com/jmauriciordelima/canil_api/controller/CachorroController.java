@@ -19,6 +19,12 @@ public class CachorroController {
         this.service = service;
     }
 
+    @PostMapping
+    public ResponseEntity<Cachorro> criar(@RequestBody Cachorro cachorro) {
+        Cachorro salvarCachorro = service.salvar(cachorro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvarCachorro);
+    }
+
     @GetMapping
     public ResponseEntity<List<Cachorro>> listarTodos(){
         return ResponseEntity.ok(service.listarTodos());
@@ -30,10 +36,14 @@ public class CachorroController {
         .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Cachorro> criar(@RequestBody Cachorro cachorro) {
-        Cachorro salvarCachorro = service.salvar(cachorro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(salvarCachorro);
+    @PutMapping("/{id}")
+    public ResponseEntity<Cachorro> atualizar(@PathVariable UUID id, @RequestBody Cachorro cachorroAtual) {
+        try {
+            Cachorro cachorroAtualizado = service.atualizar(id, cachorroAtual);
+            return ResponseEntity.ok(cachorroAtualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")

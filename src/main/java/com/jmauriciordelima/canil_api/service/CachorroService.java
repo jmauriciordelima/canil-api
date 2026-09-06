@@ -17,6 +17,10 @@ public class CachorroService {
         this.repository = repository;
     }
 
+    public Cachorro salvar(Cachorro cachorro) {
+        return repository.save(cachorro);
+    }
+
     public List<Cachorro> listarTodos() {
         return repository.findAll();
     }
@@ -25,8 +29,15 @@ public class CachorroService {
         return repository.findById(id);
     }
 
-    public Cachorro salvar(Cachorro cachorro) {
-        return repository.save(cachorro);
+    public Cachorro atualizar(UUID id, Cachorro cachorroAtual) {
+        return repository.findById(id)
+                .map(cachorro -> {
+                    cachorro.setNome(cachorroAtual.getNome());
+                    cachorro.setRaca(cachorroAtual.getRaca());
+                    cachorro.setIdade(cachorroAtual.getIdade());
+                    return repository.save(cachorro);
+                })
+                .orElseThrow(() -> new RuntimeException("Cachorro não encontrado com o ID: " + id));
     }
 
     public void deletar(UUID id) {

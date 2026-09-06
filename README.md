@@ -1,8 +1,6 @@
 # 🐕 Canil API
 
-API REST para gerenciamento de canil, desenvolvida com **Spring Boot** como evolução do projeto **Canil CLI** (Java
-puro). O objetivo é aplicar os mesmos conceitos de arquitetura em camadas, agora com persistência em banco de dados
-relacional e exposição via HTTP.
+API REST para gerenciamento de canil, desenvolvida com **Spring Boot** como evolução do projeto **Canil CLI** (Java puro). O objetivo é aplicar os mesmos conceitos de arquitetura em camadas, agora com persistência em banco de dados relacional e exposição via HTTP.
 
 > Projeto em desenvolvimento ativo — parte da jornada de aprendizado FullStack Java.
 
@@ -10,8 +8,7 @@ relacional e exposição via HTTP.
 
 ## 📌 Sobre o projeto
 
-O **Canil CLI** original era um sistema via terminal, com persistência em arquivo `.txt` e hierarquia de herança
-(`Animal` → `Cachorro`/`Gato`). O **Canil API** evolui essa base para:
+O **Canil CLI** original era um sistema via terminal, com persistência em arquivo `.txt` e hierarquia de herança (`Animal` → `Cachorro`/`Gato`). O **Canil API** evolui essa base para:
 
 - Persistência real em banco de dados (MySQL)
 - Exposição de dados via endpoints REST
@@ -22,14 +19,14 @@ O **Canil CLI** original era um sistema via terminal, com persistência em arqui
 
 ## 🛠️ Tecnologias
 
-| Tecnologia              | Versão           |
-|-------------------------|------------------|
-| Java                    | 21 (Azul JDK)    |
-| Spring Boot             | 3.x              |
-| MySQL                   | 8.0 (via Docker) |
-| Docker / Docker Compose | v2               |
-| IntelliJ IDEA           | —                |
-| DBeaver                 | 26.1.5           |
+| Tecnologia | Versão |
+|---|---|
+| Java | 21 (Azul JDK) |
+| Spring Boot | 3.x |
+| MySQL | 8.0 (via Docker) |
+| Docker / Docker Compose | v2 |
+| IntelliJ IDEA | — |
+| DBeaver | 26.1.5 |
 
 ---
 
@@ -64,51 +61,49 @@ canil-api/
 - [x] `Cachorro.java` com `@Entity` e UUID
 - [x] `CachorroRepository extends JpaRepository`
 - [x] Tabela `cachorros` criada automaticamente no banco
+- [x] `CachorroService.java` com CRUD básico (`listarTodos`, `buscarPorId`, `salvar`, `deletar`)
+- [x] `CachorroController.java` com endpoints REST sob `/api/cachorros`
+- [x] Endpoints `GET` (listar/buscar por id), `POST`, `DELETE` implementados e testados no Postman
+- [x] Tratamento de erro no `deletar`: verificação `existsById` antes de deletar, devolvendo `404` para id inexistente
 
 ### Em andamento / próximo passo imediato
 
-- [ ] `CachorroService.java`
-- [ ] `CachorroController.java`
-- [ ] Endpoints `GET`, `POST`, `PUT`, `DELETE`
-- [ ] Testes manuais com Postman
+- [ ] Endpoint `PUT /api/cachorros/{id}` (atualizar cachorro existente)
+- [ ] Testar o `PUT` no Postman
 
 ---
 
 ## 🗺️ Roadmap
 
 ### Módulo 1 — CRUD básico
-
-- [ ] `CachorroService` (camada de regras de negócio)
-- [ ] `CachorroController` (endpoints REST)
-- [ ] `GET /cachorros`
-- [ ] `GET /cachorros/{id}`
-- [ ] `POST /cachorros`
-- [ ] `PUT /cachorros/{id}`
-- [ ] `DELETE /cachorros/{id}`
-- [ ] Testar todos os endpoints no Postman
+- [x] `CachorroService` (camada de regras de negócio)
+- [x] `CachorroController` (endpoints REST)
+- [x] `GET /api/cachorros`
+- [x] `GET /api/cachorros/{id}`
+- [x] `POST /api/cachorros`
+- [ ] `PUT /api/cachorros/{id}`
+- [x] `DELETE /api/cachorros/{id}`
+- [x] Testar `GET`, `POST`, `DELETE` no Postman (casos de sucesso e de erro)
+- [ ] Testar `PUT` no Postman
 
 ### Módulo 2 — Boas práticas
-
 - [ ] DTO (Data Transfer Object)
 - [ ] `ResponseEntity` para controle de status HTTP
 - [ ] Tratamento de erros com `@ExceptionHandler`
 - [ ] Validações (`@NotNull`, `@Size`, `@Min`)
 
 ### Módulo 3 — Recursos avançados
-
 - [ ] Relacionamentos JPA (`@ManyToOne`, `@OneToMany`)
 - [ ] Queries customizadas (`@Query`, `findBy...`)
 - [ ] Paginação (`Pageable`)
 - [ ] Documentação automática com Swagger/OpenAPI
 
 ### Módulo 4 — Qualidade
-
 - [ ] Testes unitários com JUnit 5
 - [ ] Mock de dependências com Mockito
 - [ ] Testes de integração
 
 ### Módulo 5 — Deploy
-
 - [ ] `Dockerfile` da aplicação
 - [ ] `docker-compose.yml` completo (app + banco)
 - [ ] Deploy em Railway ou Render
@@ -179,9 +174,7 @@ server.port=8080
 
 ## 📚 Contexto do projeto
 
-Este projeto é a continuação natural do
-**[Canil CLI](https://github.com/jmauriciordelima/jornadaFullStackComJava_e_LevelUp/tree/main/src/Bpoo/projeto_canil)**,
-desenvolvido em Java puro com:
+Este projeto é a continuação natural do **[Canil CLI](https://github.com/jmauriciordelima/jornadaFullStackComJava_e_LevelUp)**, desenvolvido em Java puro com:
 
 - Arquitetura em camadas (modelo / repositório / serviço / util)
 - Herança e polimorfismo (`Animal` → `Cachorro`, `Gato`)
@@ -189,8 +182,7 @@ desenvolvido em Java puro com:
 - Enum (`FaseVida`)
 - Persistência em arquivo `.csv`
 
-A migração para Spring Boot representa a evolução de um CRUD via terminal para uma API REST real, conectada a um banco
-de dados relacional.
+A migração para Spring Boot representa a evolução de um CRUD via terminal para uma API REST real, conectada a um banco de dados relacional.
 
 ---
 
@@ -198,7 +190,7 @@ de dados relacional.
 
 **José Maurício**
 Desenvolvedor em formação — foco em backend Java
-[LinkedIn](https://www.linkedin.com/in/jmauriciorlima/) · [GitHub](https://github.com/jmauriciordelima)
+[LinkedIn](https://www.linkedin.com/in/jmauriciorlima/) · [GitHub](https://github.com/JMAURICIORLIMA)
 
 ---
 

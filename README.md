@@ -65,11 +65,11 @@ canil-api/
 - [x] `CachorroController.java` com endpoints REST sob `/api/cachorros`
 - [x] Endpoints `GET` (listar/buscar por id), `POST`, `DELETE` implementados e testados no Postman
 - [x] Tratamento de erro no `deletar`: verificação `existsById` antes de deletar, devolvendo `404` para id inexistente
+- [x] Endpoint `PUT /api/cachorros/{id}` (atualizar cachorro existente), testado com id válido (200) e inválido (404)
 
-### Em andamento / próximo passo imediato
+### Módulo 1 concluído ✅
 
-- [ ] Endpoint `PUT /api/cachorros/{id}` (atualizar cachorro existente)
-- [ ] Testar o `PUT` no Postman
+Próximo passo: iniciar o Módulo 2 (DTOs, tratamento de erros com `@ExceptionHandler`, validações).
 
 ---
 
@@ -81,10 +81,9 @@ canil-api/
 - [x] `GET /api/cachorros`
 - [x] `GET /api/cachorros/{id}`
 - [x] `POST /api/cachorros`
-- [ ] `PUT /api/cachorros/{id}`
+- [x] `PUT /api/cachorros/{id}`
 - [x] `DELETE /api/cachorros/{id}`
-- [x] Testar `GET`, `POST`, `DELETE` no Postman (casos de sucesso e de erro)
-- [ ] Testar `PUT` no Postman
+- [x] Testar `GET`, `POST`, `PUT`, `DELETE` no Postman (casos de sucesso e de erro)
 
 ### Módulo 2 — Boas práticas
 - [ ] DTO (Data Transfer Object)

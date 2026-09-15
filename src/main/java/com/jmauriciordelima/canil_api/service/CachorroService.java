@@ -1,5 +1,7 @@
 package com.jmauriciordelima.canil_api.service;
 
+import com.jmauriciordelima.canil_api.dto.CachorroRequestDTO;
+import com.jmauriciordelima.canil_api.dto.CachorroResponseDTO;
 import com.jmauriciordelima.canil_api.model.Cachorro;
 import com.jmauriciordelima.canil_api.repository.CachorroRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CachorroService {
@@ -17,25 +20,53 @@ public class CachorroService {
         this.repository = repository;
     }
 
-    public Cachorro salvar(Cachorro cachorro) {
-        return repository.save(cachorro);
+    public CachorroResponseDTO salvar(CachorroRequestDTO dto) {
+        Cachorro criarNovoCachorro = new Cachorro(dto.nome(), dto.raca(), dto.idade());
+        Cachorro cachorroSalvo = repository.save(criarNovoCachorro);
+        CachorroResponseDTO responseDTO = new CachorroResponseDTO(
+                cachorroSalvo.getId(),
+                cachorroSalvo.getNome(),
+                cachorroSalvo.getRaca(),
+                cachorroSalvo.getIdade());
+        return responseDTO;
     }
 
-    public List<Cachorro> listarTodos() {
-        return repository.findAll();
+    public List<CachorroResponseDTO> listarTodos() {
+        return repository.findAll().stream()
+                .map(cachorro -> new CachorroResponseDTO(
+                        cachorro.getId(),
+                        cachorro.getNome(),
+                        cachorro.getRaca(),
+                        cachorro.getIdade()
+                ))
+                .collect(Collectors.toList());
     }
 
-    public Optional<Cachorro> buscarPorId(UUID id) {
-        return repository.findById(id);
+    public Optional<CachorroResponseDTO> buscarPorId(UUID id) {
+        return repository.findById(id)
+                .map(cachorro ->
+                        new CachorroResponseDTO(
+                                cachorro.getId(),
+                                cachorro.getNome(),
+                                cachorro.getRaca(),
+                                cachorro.getIdade()
+
+                        ));
     }
 
-    public Cachorro atualizar(UUID id, Cachorro cachorroAtual) {
+    public CachorroResponseDTO atualizar(UUID id, CachorroRequestDTO requestDTO) {
         return repository.findById(id)
                 .map(cachorro -> {
-                    cachorro.setNome(cachorroAtual.getNome());
-                    cachorro.setRaca(cachorroAtual.getRaca());
-                    cachorro.setIdade(cachorroAtual.getIdade());
-                    return repository.save(cachorro);
+                    cachorro.setNome(requestDTO.nome());
+                    cachorro.setRaca(requestDTO.raca());
+                    cachorro.setIdade(requestDTO.idade());
+                    Cachorro cachorroSalvo = repository.save(cachorro);
+                    return new CachorroResponseDTO(
+                            cachorroSalvo.getId(),
+                            cachorroSalvo.getNome(),
+                            cachorroSalvo.getRaca(),
+                            cachorroSalvo.getIdade()
+                    );
                 })
                 .orElseThrow(() -> new RuntimeException("Cachorro não encontrado com o ID: " + id));
     }

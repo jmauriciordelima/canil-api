@@ -1,5 +1,7 @@
 package com.jmauriciordelima.canil_api.controller;
 
+import com.jmauriciordelima.canil_api.dto.CachorroRequestDTO;
+import com.jmauriciordelima.canil_api.dto.CachorroResponseDTO;
 import com.jmauriciordelima.canil_api.model.Cachorro;
 import com.jmauriciordelima.canil_api.service.CachorroService;
 import org.springframework.http.HttpStatus;
@@ -20,26 +22,26 @@ public class CachorroController {
     }
 
     @PostMapping
-    public ResponseEntity<Cachorro> criar(@RequestBody Cachorro cachorro) {
-        Cachorro salvarCachorro = service.salvar(cachorro);
+    public ResponseEntity<CachorroResponseDTO> criar(@RequestBody CachorroRequestDTO dto) {
+        CachorroResponseDTO salvarCachorro = service.salvar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvarCachorro);
     }
 
     @GetMapping
-    public ResponseEntity<List<Cachorro>> listarTodos(){
+    public ResponseEntity<List<CachorroResponseDTO>> listarTodos(){
         return ResponseEntity.ok(service.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cachorro> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<CachorroResponseDTO> buscarPorId(@PathVariable UUID id) {
         return service.buscarPorId(id)
         .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cachorro> atualizar(@PathVariable UUID id, @RequestBody Cachorro cachorroAtual) {
+    public ResponseEntity<CachorroResponseDTO> atualizar(@PathVariable UUID id, @RequestBody CachorroRequestDTO requestDTO) {
         try {
-            Cachorro cachorroAtualizado = service.atualizar(id, cachorroAtual);
+            CachorroResponseDTO cachorroAtualizado = service.atualizar(id, requestDTO);
             return ResponseEntity.ok(cachorroAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

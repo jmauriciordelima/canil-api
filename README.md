@@ -39,9 +39,12 @@ canil-api/
 ├── repository/
 │   └── CachorroRepository.java → extends JpaRepository
 ├── service/
-│   └── CachorroService.java   → regras de negócio
+│   └── CachorroService.java   → regras de negócio, conversão DTO ↔ entidade
 ├── controller/
 │   └── CachorroController.java → endpoints REST
+├── dto/
+│   ├── CachorroRequestDTO.java  → record, dados de entrada (sem id)
+│   └── CachorroResponseDTO.java → record, dados de saída (com id)
 ├── docker-compose.yml
 └── application.properties
 ```
@@ -66,10 +69,12 @@ canil-api/
 - [x] Endpoints `GET` (listar/buscar por id), `POST`, `DELETE` implementados e testados no Postman
 - [x] Tratamento de erro no `deletar`: verificação `existsById` antes de deletar, devolvendo `404` para id inexistente
 - [x] Endpoint `PUT /api/cachorros/{id}` (atualizar cachorro existente), testado com id válido (200) e inválido (404)
+- [x] `CachorroRequestDTO` e `CachorroResponseDTO` (Java records) — entidade `Cachorro` isolada, nunca exposta direto na API
+- [x] Os 4 métodos do CRUD (`criar`, `buscarPorId`, `listarTodos`, `atualizar`) convertendo entre DTO e entidade, testados de ponta a ponta no Postman
 
-### Módulo 1 concluído ✅
+### Módulo 1 concluído ✅ — Módulo 2 em andamento 🚧
 
-Próximo passo: iniciar o Módulo 2 (DTOs, tratamento de erros com `@ExceptionHandler`, validações).
+Próximo passo: tratamento de erros com exceção customizada + `@ExceptionHandler`, depois validações (`@NotNull`, `@Size`, `@Min`).
 
 ---
 
@@ -86,8 +91,8 @@ Próximo passo: iniciar o Módulo 2 (DTOs, tratamento de erros com `@ExceptionHa
 - [x] Testar `GET`, `POST`, `PUT`, `DELETE` no Postman (casos de sucesso e de erro)
 
 ### Módulo 2 — Boas práticas
-- [ ] DTO (Data Transfer Object)
-- [ ] `ResponseEntity` para controle de status HTTP
+- [x] DTO (Data Transfer Object) — `CachorroRequestDTO` e `CachorroResponseDTO`, entidade `Cachorro` isolada da API
+- [x] `ResponseEntity` para controle de status HTTP
 - [ ] Tratamento de erros com `@ExceptionHandler`
 - [ ] Validações (`@NotNull`, `@Size`, `@Min`)
 

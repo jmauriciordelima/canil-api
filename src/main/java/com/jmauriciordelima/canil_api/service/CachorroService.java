@@ -2,6 +2,7 @@ package com.jmauriciordelima.canil_api.service;
 
 import com.jmauriciordelima.canil_api.dto.CachorroRequestDTO;
 import com.jmauriciordelima.canil_api.dto.CachorroResponseDTO;
+import com.jmauriciordelima.canil_api.exception.CachorroNaoEncontradoException;
 import com.jmauriciordelima.canil_api.model.Cachorro;
 import com.jmauriciordelima.canil_api.repository.CachorroRepository;
 import org.springframework.stereotype.Service;
@@ -68,16 +69,14 @@ public class CachorroService {
                             cachorroSalvo.getIdade()
                     );
                 })
-                .orElseThrow(() -> new RuntimeException("Cachorro não encontrado com o ID: " + id));
+                .orElseThrow(() -> new CachorroNaoEncontradoException("Cachorro não encontrado com o ID: " + id));
     }
 
     public void deletar(UUID id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Cachorro não encontrado com o ID: " + id);
+            throw new CachorroNaoEncontradoException("Cachorro não encontrado com o ID: " + id);
         }
-
         repository.deleteById(id);
-
     }
 
 }

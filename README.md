@@ -44,7 +44,12 @@ canil-api/
 │   └── CachorroController.java → endpoints REST
 ├── dto/
 │   ├── CachorroRequestDTO.java  → record, dados de entrada (sem id)
-│   └── CachorroResponseDTO.java → record, dados de saída (com id)
+│   ├── CachorroResponseDTO.java → record, dados de saída (com id)
+│   └── ErroResponseDTO.java     → record, formato padronizado de erro da API
+├── exception/
+│   ├── CachorroNaoEncontradoException.java
+│   └── handler/
+│       └── GlobalExceptionHandler.java → @RestControllerAdvice, trata erros centralizadamente
 ├── docker-compose.yml
 └── application.properties
 ```
@@ -71,10 +76,13 @@ canil-api/
 - [x] Endpoint `PUT /api/cachorros/{id}` (atualizar cachorro existente), testado com id válido (200) e inválido (404)
 - [x] `CachorroRequestDTO` e `CachorroResponseDTO` (Java records) — entidade `Cachorro` isolada, nunca exposta direto na API
 - [x] Os 4 métodos do CRUD (`criar`, `buscarPorId`, `listarTodos`, `atualizar`) convertendo entre DTO e entidade, testados de ponta a ponta no Postman
+- [x] `CachorroNaoEncontradoException` (exceção customizada) + `GlobalExceptionHandler` (`@RestControllerAdvice`), removendo o `try/catch` repetido do Controller
+- [x] Validações no `CachorroRequestDTO` (`@NotBlank`, `@Size`, `@Min`) com `@Valid` no Controller
+- [x] `ErroResponseDTO` unificado (`dataHora`, `status`, `erro`, `caminho`, `mensagem`, `errosCampos`) — mesmo formato de erro para "não encontrado" (404) e validação (400)
 
-### Módulo 1 concluído ✅ — Módulo 2 em andamento 🚧
+### Módulo 1 e Módulo 2 concluídos ✅
 
-Próximo passo: tratamento de erros com exceção customizada + `@ExceptionHandler`, depois validações (`@NotNull`, `@Size`, `@Min`).
+Próximo passo: iniciar o Módulo 3 (relacionamentos JPA, queries customizadas, paginação, Swagger/OpenAPI).
 
 ---
 
@@ -93,8 +101,8 @@ Próximo passo: tratamento de erros com exceção customizada + `@ExceptionHandl
 ### Módulo 2 — Boas práticas
 - [x] DTO (Data Transfer Object) — `CachorroRequestDTO` e `CachorroResponseDTO`, entidade `Cachorro` isolada da API
 - [x] `ResponseEntity` para controle de status HTTP
-- [ ] Tratamento de erros com `@ExceptionHandler`
-- [ ] Validações (`@NotNull`, `@Size`, `@Min`)
+- [x] Tratamento de erros com `@ExceptionHandler` (`CachorroNaoEncontradoException` + `GlobalExceptionHandler` + `ErroResponseDTO` unificado)
+- [x] Validações (`@NotBlank`, `@Size`, `@Min`) com `@Valid`
 
 ### Módulo 3 — Recursos avançados
 - [ ] Relacionamentos JPA (`@ManyToOne`, `@OneToMany`)

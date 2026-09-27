@@ -35,7 +35,10 @@ O **Canil CLI** original era um sistema via terminal, com persistência em arqui
 ```
 canil-api/
 ├── model/
-│   └── Cachorro.java          → @Entity, UUID como ID
+│   ├── Cachorro.java          → @Entity, UUID como ID, @ManyToOne para Estabelecimento
+│   ├── Estabelecimento.java   → @Entity, @ManyToOne para Proprietario, @OneToMany para Cachorro
+│   ├── Proprietario.java      → @Entity, @OneToMany para Estabelecimento
+│   └── Endereco.java          → @Embeddable, reutilizado em Proprietario e Estabelecimento
 ├── repository/
 │   └── CachorroRepository.java → extends JpaRepository
 ├── service/
@@ -79,10 +82,15 @@ canil-api/
 - [x] `CachorroNaoEncontradoException` (exceção customizada) + `GlobalExceptionHandler` (`@RestControllerAdvice`), removendo o `try/catch` repetido do Controller
 - [x] Validações no `CachorroRequestDTO` (`@NotBlank`, `@Size`, `@Min`) com `@Valid` no Controller
 - [x] `ErroResponseDTO` unificado (`dataHora`, `status`, `erro`, `caminho`, `mensagem`, `errosCampos`) — mesmo formato de erro para "não encontrado" (404) e validação (400)
+- [x] `Endereco` (`@Embeddable`) — agrupamento reutilizável de campos de endereço (cep, logradouro, bairro, cidade, estado, numero, complemento, pontoReferencia)
+- [x] `Proprietario` (`@Entity`, UUID) — nome, cpf, email, contato, endereco embutido
+- [x] `Estabelecimento` (`@Entity`, UUID) — nome, cnpj (único), telefone, email, endereco embutido, horarioFuncionamento, ativo
+- [x] Relacionamento bidirecional completo: `Proprietario` (1) —< `Estabelecimento` (1) —< `Cachorro`, com `@ManyToOne`/`@OneToMany` e `mappedBy` nos dois elos
+- [x] Projeto compilando e rodando com as 4 entidades; Hibernate criou as tabelas/colunas novas sem quebrar os dados existentes
 
-### Módulo 1 e Módulo 2 concluídos ✅
+### Módulo 1 e Módulo 2 concluídos ✅ — Módulo 3 em andamento 🚧
 
-Próximo passo: iniciar o Módulo 3 (relacionamentos JPA, queries customizadas, paginação, Swagger/OpenAPI).
+Próximo passo: Repository, Service, DTOs e Controller para `Estabelecimento` e `Proprietario`, seguindo o mesmo padrão já usado em `Cachorro`.
 
 ---
 
@@ -105,7 +113,8 @@ Próximo passo: iniciar o Módulo 3 (relacionamentos JPA, queries customizadas, 
 - [x] Validações (`@NotBlank`, `@Size`, `@Min`) com `@Valid`
 
 ### Módulo 3 — Recursos avançados
-- [ ] Relacionamentos JPA (`@ManyToOne`, `@OneToMany`)
+- [x] Relacionamentos JPA (`@ManyToOne`, `@OneToMany`) — `Proprietario` —< `Estabelecimento` —< `Cachorro`, com `Endereco` (`@Embeddable`) reutilizado
+- [ ] Repository, Service, DTOs e Controller de `Estabelecimento` e `Proprietario`
 - [ ] Queries customizadas (`@Query`, `findBy...`)
 - [ ] Paginação (`Pageable`)
 - [ ] Documentação automática com Swagger/OpenAPI

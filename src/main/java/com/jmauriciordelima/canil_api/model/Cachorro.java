@@ -2,6 +2,7 @@ package com.jmauriciordelima.canil_api.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,6 +15,9 @@ public class Cachorro {
     private String nome;
     private String raca;
     private int idade;
+
+    @ManyToOne
+    private Estabelecimento estabelecimento;
 
     public Cachorro() {
     }
@@ -54,5 +58,13 @@ public class Cachorro {
 
     public void setIdade(int idade) {
         this.idade = idade;
+    }
+
+    public Estabelecimento getEstabelecimento() {
+        return estabelecimento;
+    }
+
+    public void setEstabelecimento(Estabelecimento estabelecimento) {
+        this.estabelecimento = estabelecimento;
     }
 }
